@@ -1,19 +1,18 @@
+import joblib
+from main import run_all_attacks, store_results
+from art.utils import load_nursery
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
-from engine import run_all_attacks, store_results
 
-# User provides this
-X_train = np.random.rand(100, 10)  # Example data
-y_train = np.random.randint(0, 2, 100)
-X_test = np.random.rand(50, 10)
-y_test = np.random.randint(0, 2, 50)
+# Load a sample dataset (e.g., Nursery dataset) in the backend
+(X_train, y_train), (X_test, y_test), _, _ = load_nursery(test_set=0.5)
 
-model = RandomForestClassifier()
-model.fit(X_train, y_train)
+# User provides only the model path
+model_path = "data/model_input/DecisionTreeClassifier.pkl"  # Replace with actual model path
+model = joblib.load(model_path)
 
-# Run engine
+# Run engine with preloaded dataset
 results = run_all_attacks(model, X_train, y_train, X_test, y_test)
-store_results(results, model_id="my_model_1")
+store_results(results, model_id=model_path)
 
-# View results
+# Print results
 print(results)
