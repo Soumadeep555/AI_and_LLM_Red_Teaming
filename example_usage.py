@@ -15,4 +15,8 @@ results = run_all_attacks(model, X_train, y_train, X_test, y_test)
 store_results(results, model_id=model_path)
 
 # Print results
-print(results)
+for attack_name, result in results.items():
+    print(f"Attack: {attack_name}")
+    print(f"  Success: {result['success']}")
+    print(f"  Score: {result['score']:.4f}")
+    print(f"  Details: {result['details']}")
