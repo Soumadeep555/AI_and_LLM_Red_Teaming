@@ -1,7 +1,15 @@
 import numpy as np
 from art.attacks.inference.membership_inference import MembershipInferenceBlackBox
+from art.estimators.regression.scikitlearn import ScikitlearnRegressor  # Import for type checking
 
 def run_membership_inference_regressor(art_model, X_train, y_train, X_test, y_test):
+    if not isinstance(art_model, ScikitlearnRegressor):
+        return {
+            "success": False,
+            "score": 0.0,
+            "details": {"error": "Model is not a regressor; skipping attack."}
+        }
+    
     attack_train_ratio = 0.5
     attack_train_size = int(len(X_train) * attack_train_ratio)
     attack_test_size = int(len(X_test) * attack_train_ratio)

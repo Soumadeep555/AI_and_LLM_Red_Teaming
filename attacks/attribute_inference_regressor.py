@@ -1,7 +1,15 @@
 import numpy as np
 from art.attacks.inference.attribute_inference import AttributeInferenceBlackBox, AttributeInferenceBaseline
+from art.estimators.regression.scikitlearn import ScikitlearnRegressor  # Import for type checking
 
 def run_attribute_inference_regressor(art_model, X_train, y_train, X_test, y_test):
+    if not isinstance(art_model, ScikitlearnRegressor):
+        return {
+            "success": False,
+            "score": 0.0,
+            "details": {"error": "Model is not a regressor; skipping attack."}
+        }
+    
     attack_feature = 3  # Example: bmi feature from your notebook
     attack_train_ratio = 0.75
     attack_train_size = int(len(X_train) * attack_train_ratio)

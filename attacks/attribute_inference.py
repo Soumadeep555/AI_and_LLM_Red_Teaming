@@ -15,7 +15,7 @@ def run_attribute_inference(art_model, X_train, y_train, X_test, y_test):
     attack_x_test = X_test[:attack_test_size]
     attack_y_test = y_test[:attack_test_size]
     
-    attack_x_test_predictions = np.array([np.argmax(arr) for arr in art_model.predict(attack_x_test)]).reshape(-1, 1)
+    attack_x_test_predictions = art_model.predict(attack_x_test)
     attack_x_test_feature = attack_x_test[:, attack_feature].copy().reshape(-1, 1)
     x_test_for_attack = np.delete(attack_x_test, attack_feature, 1)
     
